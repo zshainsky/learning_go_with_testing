@@ -21,3 +21,21 @@ func SumAll(numbersToSum ...[]int) []int {
 
 	return sums
 }
+
+func SumAllTails(numbersToSum ...[]int) []int {
+	// Create a slice
+	var sums []int
+
+	// Loop through all slices in numbersToSum
+	for _, numbers := range numbersToSum {
+		if len(numbers) == 0 {
+			sums = append(sums, 0)
+		} else {
+			// Sum all values in `numbers` skipping the first index ("head")
+			sums = append(sums, Sum(numbers[1:]))
+		}
+	}
+
+	return sums
+
+}
