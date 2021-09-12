@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"time"
 
@@ -11,11 +10,7 @@ import (
 
 func main() {
 	t := time.Now()
-	sh := clockface.SecondHand(t)
-	io.WriteString(os.Stdout, svgStart)
-	io.WriteString(os.Stdout, bezel)
-	io.WriteString(os.Stdout, secondHandTag(sh))
-	io.WriteString(os.Stdout, svgEnd)
+	clockface.SVGWriter(os.Stdout, t)
 }
 
 func secondHandTag(p clockface.Point) string {
