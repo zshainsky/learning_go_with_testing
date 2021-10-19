@@ -2,3 +2,4 @@ math/v1/clockface/clockface/clockface
 math/v1/clockface/.DS_Store
 http-server/v1/server/game.db.json
 http-server/v1/server/server
+http-server/**/*.db.json
