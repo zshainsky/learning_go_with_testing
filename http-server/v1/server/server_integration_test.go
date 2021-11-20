@@ -1,20 +1,22 @@
-package poker
+package poker_test
 
 import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	poker "github.com/zshainsky/learning_go_with_testing/http-server/v1/server"
 )
 
 func TestRecordingWinsAndRetrievingThem(t *testing.T) {
 	//server_integration_test.go
-	database, cleanDatabase := createTempFile(t, `[]`)
+	database, cleanDatabase := poker.CreateTempFile(t, `[]`)
 	defer cleanDatabase()
 
-	store, err := NewFileSystemPlayerStore(database)
-	assertNoError(t, err)
+	store, err := poker.NewFileSystemPlayerStore(database)
+	poker.AssertNoError(t, err)
 
-	server := NewPlayerServer(store)
+	server := poker.NewPlayerServer(store)
 	player := "Pepper"
 
 	server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
@@ -24,20 +26,20 @@ func TestRecordingWinsAndRetrievingThem(t *testing.T) {
 	t.Run("get score", func(t *testing.T) {
 		response := httptest.NewRecorder()
 		server.ServeHTTP(response, newGetScoreRequest(player))
-		assertStatus(t, response.Code, http.StatusOK)
+		poker.AssertStatus(t, response, http.StatusOK)
 
-		assertResponseBody(t, response.Body.String(), "3")
+		poker.AssertResponseBody(t, response.Body.String(), "3")
 	})
 	t.Run("get league", func(t *testing.T) {
 		response := httptest.NewRecorder()
 		server.ServeHTTP(response, newLeagueRequest())
-		assertStatus(t, response.Code, http.StatusOK)
+		poker.AssertStatus(t, response, http.StatusOK)
 
-		got := getLeagueFromResponse(t, response.Body)
-		want := []Player{
+		got := poker.GetLeagueFromResponse(t, response.Body)
+		want := []poker.Player{
 			{"Pepper", 3},
 		}
-		assertLeague(t, got, want)
+		poker.AssertLeague(t, got, want)
 	})
 
 }

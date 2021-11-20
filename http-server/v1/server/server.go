@@ -33,11 +33,14 @@ func NewPlayerServer(store PlayerStore) *PlayerServer {
 	router := http.NewServeMux()
 	router.Handle("/league", http.HandlerFunc(p.leagueHandler))
 	router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+	router.Handle("/game", http.HandlerFunc(p.gameHandler))
 
 	p.Handler = router
 	return p
 }
-
+func (p *PlayerServer) gameHandler(writer http.ResponseWriter, request *http.Request) {
+	writer.WriteHeader(http.StatusOK)
+}
 func (p *PlayerServer) leagueHandler(writer http.ResponseWriter, request *http.Request) {
 
 	writer.Header().Set("content-type", jsonContentType)
