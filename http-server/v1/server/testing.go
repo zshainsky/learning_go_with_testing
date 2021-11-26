@@ -14,6 +14,7 @@ import (
 type ScheduledAlert struct {
 	At     time.Duration
 	Amount int
+	To     io.Writer
 }
 
 func (s ScheduledAlert) String() string {
@@ -24,8 +25,8 @@ type SpyBlindAlerter struct {
 	Alerts []ScheduledAlert
 }
 
-func (s *SpyBlindAlerter) ScheduleAlertAt(duration time.Duration, amount int) {
-	s.Alerts = append(s.Alerts, ScheduledAlert{duration, amount})
+func (s *SpyBlindAlerter) ScheduleAlertAt(duration time.Duration, amount int, to io.Writer) {
+	s.Alerts = append(s.Alerts, ScheduledAlert{duration, amount, to})
 }
 
 type StubPlayerStore struct {

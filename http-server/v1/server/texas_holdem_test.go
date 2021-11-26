@@ -2,6 +2,7 @@ package poker_test
 
 import (
 	"fmt"
+	"io/ioutil"
 	"testing"
 	"time"
 
@@ -14,20 +15,20 @@ func TestGame_Start(t *testing.T) {
 		dummyPlayerStore := &poker.StubPlayerStore{}
 		game := poker.NewTexasHoldem(blindAlerter, dummyPlayerStore)
 
-		game.Start(5)
+		game.Start(5, ioutil.Discard)
 
 		cases := []poker.ScheduledAlert{
-			{At: 0 * time.Second, Amount: 100},
-			{At: 10 * time.Minute, Amount: 200},
-			{At: 20 * time.Minute, Amount: 300},
-			{At: 30 * time.Minute, Amount: 400},
-			{At: 40 * time.Minute, Amount: 500},
-			{At: 50 * time.Minute, Amount: 600},
-			{At: 60 * time.Minute, Amount: 800},
-			{At: 70 * time.Minute, Amount: 1000},
-			{At: 80 * time.Minute, Amount: 2000},
-			{At: 90 * time.Minute, Amount: 4000},
-			{At: 100 * time.Minute, Amount: 8000},
+			{At: 0 * time.Second, Amount: 100, To: ioutil.Discard},
+			{At: 10 * time.Minute, Amount: 200, To: ioutil.Discard},
+			{At: 20 * time.Minute, Amount: 300, To: ioutil.Discard},
+			{At: 30 * time.Minute, Amount: 400, To: ioutil.Discard},
+			{At: 40 * time.Minute, Amount: 500, To: ioutil.Discard},
+			{At: 50 * time.Minute, Amount: 600, To: ioutil.Discard},
+			{At: 60 * time.Minute, Amount: 800, To: ioutil.Discard},
+			{At: 70 * time.Minute, Amount: 1000, To: ioutil.Discard},
+			{At: 80 * time.Minute, Amount: 2000, To: ioutil.Discard},
+			{At: 90 * time.Minute, Amount: 4000, To: ioutil.Discard},
+			{At: 100 * time.Minute, Amount: 8000, To: ioutil.Discard},
 		}
 
 		checkSchedulingCases(cases, t, blindAlerter)
@@ -38,13 +39,13 @@ func TestGame_Start(t *testing.T) {
 		dummyPlayerStore := &poker.StubPlayerStore{}
 		game := poker.NewTexasHoldem(blindAlerter, dummyPlayerStore)
 
-		game.Start(7)
+		game.Start(7, ioutil.Discard)
 
 		cases := []poker.ScheduledAlert{
-			{At: 0 * time.Second, Amount: 100},
-			{At: 12 * time.Minute, Amount: 200},
-			{At: 24 * time.Minute, Amount: 300},
-			{At: 36 * time.Minute, Amount: 400},
+			{At: 0 * time.Second, Amount: 100, To: ioutil.Discard},
+			{At: 12 * time.Minute, Amount: 200, To: ioutil.Discard},
+			{At: 24 * time.Minute, Amount: 300, To: ioutil.Discard},
+			{At: 36 * time.Minute, Amount: 400, To: ioutil.Discard},
 		}
 
 		checkSchedulingCases(cases, t, blindAlerter)
@@ -75,6 +76,7 @@ func checkSchedulingCases(cases []poker.ScheduledAlert, t *testing.T, blindAlert
 		})
 	}
 }
+
 func assertScheduledAlert(t testing.TB, got, want poker.ScheduledAlert) {
 	t.Helper()
 	if got != want {
